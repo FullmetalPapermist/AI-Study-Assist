@@ -1,7 +1,9 @@
 from summarise import summarise_notes
 from init import init_query_engine
+from helpers import clear_console
 
 def main():
+    clear_console()
     print("Initializing AI Study Assistant...")
     query_engine = init_query_engine()
     print("Ready.\n")

@@ -1,9 +1,8 @@
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
 from llama_index.llms.ollama import Ollama
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from huggingface_hub import login
 from llama_index.core.node_parser import SimpleNodeParser
-from llama_index.core.response_synthesizers import CompactResponseSynthesizer
+from llama_index.core.response_synthesizers import ResponseMode
 
 
 
@@ -23,8 +22,7 @@ def init_query_engine():
         request_timeout=3000,
         node_parser=parser
     )
-    synth = CompactResponseSynthesizer.from_defaults()
-    query_engine = index.as_query_engine(response_synthesizer=synth)
+    query_engine = index.as_query_engine(response_mode=ResponseMode.COMPACT)
 
 
     return query_engine
