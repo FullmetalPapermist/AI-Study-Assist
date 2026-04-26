@@ -1,6 +1,6 @@
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 
-documents = SimpleDirectoryReader("./notes").load_data()
+documents = SimpleDirectoryReader("./notes.txt").load_data()
 index = VectorStoreIndex.from_documents(documents)
 
 query_engine = index.as_query_engine()
