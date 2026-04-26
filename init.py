@@ -3,6 +3,9 @@ from llama_index.llms.ollama import Ollama
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from huggingface_hub import login
 from llama_index.core.node_parser import SimpleNodeParser
+from llama_index.core.response_synthesizers import CompactResponseSynthesizer
+
+
 
 def init_query_engine():
     parser = SimpleNodeParser.from_defaults(chunk_size=512)
@@ -20,7 +23,8 @@ def init_query_engine():
         request_timeout=3000,
         node_parser=parser
     )
+    synth = CompactResponseSynthesizer.from_defaults()
+    query_engine = index.as_query_engine(response_synthesizer=synth)
 
-    query_engine = index.as_query_engine(response_mode="compact")
 
     return query_engine
