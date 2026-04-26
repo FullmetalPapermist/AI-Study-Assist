@@ -1,1 +1,4 @@
 hf_token.py
+*.py[cod]
+*$py.class
+**/__pycache__/

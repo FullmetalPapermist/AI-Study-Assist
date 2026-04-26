@@ -1,42 +1,40 @@
 from helpers import parse_response
 
 def generate_context(topic, query_engine):
-    return query_engine.query(f"Provide relevant information about {topic} in under 80 words")
+    return query_engine.query(
+        f"Provide the 5 most important facts about {topic} in under 50 words."
+    )
 
 def generate_question(topic, context, query_engine):
     prompt = f"""
-    Generate ONE short-answer question based ONLY on the topic and context.
+    Generate ONE short-answer question based ONLY on the topic and context max 30 words.
 
     Topic: {topic}
 
-    Context (max 80 words):
+    Context (max 50 words):
     {context}
 
-    Return ONLY valid JSON:
-    {{
-        "question": "...",
-        "answer": "..."
-    }}
+    Return ONLY valid JSON inside a code block like this:
+
+    ```json
+    {{ "question": "...", "answer": "..." }}
     """
 
     return parse_response(query_engine.query(prompt))
 
 def evaluate_answer(question, correct_answer, user_answer, query_engine):
     prompt = f"""
-    Evaluate the student's answer briefly.
+    Evaluate the student's answer briefly in 10 words.
 
     Question: {question}
     Correct Answer: {correct_answer}
     Student Answer: {user_answer}
 
-    Return ONLY valid JSON:
-    {{
-        "score": 0 or 1,
-        "feedback": "short feedback (max 20 words)",
-        "understanding": "weak/medium/strong"
-    }}
-    """
+    Return ONLY valid JSON inside a code block like this:
 
+    ```json
+    {{ "score": 0 or 1, "feedback": "...", "understanding": "weak/medium/strong" }}
+    """
     return parse_response(query_engine.query(prompt))
 
 def next_question(previous_result, topic, context, query_engine):
@@ -52,21 +50,20 @@ def next_question(previous_result, topic, context, query_engine):
     weakness = previous_result.get("feedback", "")
 
     prompt = f"""
-    Generate ONE {difficulty} question on the topic.
+    Generate ONE {difficulty} question on the topic maximum 30 words.
 
     Topic: {topic}
 
-    Context (max 80 words):
+    Context (max 50 words):
     {context}
 
     Focus on this weakness (max 10 words):
     {weakness}
 
-    Return ONLY valid JSON:
-    {{
-        "question": "...",
-        "answer": "..."
-    }}
+    Return ONLY valid JSON inside a code block like this:
+
+    ```json
+    {{ "question": "...", "answer": "..." }}
     """
 
     return parse_response(query_engine.query(prompt))
@@ -76,7 +73,7 @@ def run_quiz(query_engine):
 
     try:
         context = query_engine.query(
-            f"Extract key facts about {topic} in under 150 words."
+            f"Extract key facts about {topic} in under 50 words."
         )
     except Exception as e:
         print("Error: ", e)

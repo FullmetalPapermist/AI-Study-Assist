@@ -1,6 +1,7 @@
 from summarise import summarise_notes
 from init import init_query_engine
 from helpers import clear_console
+from quiz import run_quiz
 
 def main():
     clear_console()
@@ -10,7 +11,8 @@ def main():
 
     options = {
         "1": ("Summarise notes", lambda: summarise_notes(query_engine)),
-        "2": ("Exit", None)
+        "2": ("Quiz", lambda: run_quiz(query_engine)),
+        "3": ("Exit", None),
     }
 
     while True:

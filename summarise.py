@@ -9,9 +9,9 @@ def summarise_notes(query_engine):
     if choice == "1":
         prompt = "Summarise the notes in 30 words."
     elif choice == "2":
-        prompt = "Summarise the notes in 5 clear bullet points."
+        prompt = "Summarise the notes in 5 clear bullet points. Max 100 words"
     elif choice == "3":
-        prompt = "Provide a detailed but clear summary of the notes in 200 words"
+        prompt = "Provide a detailed but clear summary of the notes in 100 words"
     else:
         print("Invalid choice.")
         return
