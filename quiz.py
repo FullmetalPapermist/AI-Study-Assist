@@ -1,43 +1,42 @@
 from helpers import parse_response
 
 def generate_context(topic, query_engine):
-    return query_engine.query(f"Provide relevant information about {topic}")
+    return query_engine.query(f"Provide relevant information about {topic} in under 80 words")
 
 def generate_question(topic, context, query_engine):
     prompt = f"""
-    Based on the topic and context below, generate ONE short-answer question.
+    Generate ONE short-answer question based ONLY on the topic and context.
 
-    Topic:
-    {topic}
+    Topic: {topic}
 
-    Context:
+    Context (max 80 words):
     {context}
 
-    Return ONLY valid JSON.
-    Do NOT include explanations or extra text.
+    Return ONLY valid JSON:
     {{
         "question": "...",
         "answer": "..."
     }}
     """
+
     return parse_response(query_engine.query(prompt))
 
 def evaluate_answer(question, correct_answer, user_answer, query_engine):
     prompt = f"""
+    Evaluate the student's answer briefly.
+
     Question: {question}
     Correct Answer: {correct_answer}
     Student Answer: {user_answer}
 
-    Evaluate the student answer.
-
-    Return ONLY valid JSON.
-    Do NOT include explanations or extra text.:
+    Return ONLY valid JSON:
     {{
-        "score": 0-1,
-        "feedback": "...",
+        "score": 0 or 1,
+        "feedback": "short feedback (max 20 words)",
         "understanding": "weak/medium/strong"
     }}
     """
+
     return parse_response(query_engine.query(prompt))
 
 def next_question(previous_result, topic, context, query_engine):
@@ -53,23 +52,23 @@ def next_question(previous_result, topic, context, query_engine):
     weakness = previous_result.get("feedback", "")
 
     prompt = f"""
-    Generate a {difficulty} question on:
+    Generate ONE {difficulty} question on the topic.
 
     Topic: {topic}
 
-    Context:
+    Context (max 80 words):
     {context}
 
-    Focus on these weak areas:
+    Focus on this weakness (max 10 words):
     {weakness}
 
-    Return ONLY valid JSON.
-    Do NOT include explanations or extra text.
+    Return ONLY valid JSON:
     {{
         "question": "...",
         "answer": "..."
     }}
     """
+
     return parse_response(query_engine.query(prompt))
 
 def run_quiz(query_engine):

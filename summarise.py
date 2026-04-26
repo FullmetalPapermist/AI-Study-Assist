@@ -2,16 +2,16 @@ def summarise_notes(query_engine):
     print("\nHow would you like the summary?")
     print("1. Short summary")
     print("2. Bullet points")
-    # print("3. Detailed explanation")
+    print("3. Detailed explanation")
 
     choice = input("Choose: ")
 
     if choice == "1":
-        prompt = "Summarise the notes in 3 concise sentences."
+        prompt = "Summarise the notes in 30 words."
     elif choice == "2":
         prompt = "Summarise the notes in 5 clear bullet points."
-    # elif choice == "3":
-    #     prompt = "Provide a detailed but clear summary of the notes."
+    elif choice == "3":
+        prompt = "Provide a detailed but clear summary of the notes in 200 words"
     else:
         print("Invalid choice.")
         return
