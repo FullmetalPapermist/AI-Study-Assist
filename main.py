@@ -1,9 +1,13 @@
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 
-documents = SimpleDirectoryReader("./notes.txt").load_data()
-index = VectorStoreIndex.from_documents(documents)
+def execute_test_query():
+    documents = SimpleDirectoryReader("./notes.txt").load_data()
+    index = VectorStoreIndex.from_documents(documents)
 
-query_engine = index.as_query_engine()
+    query_engine = index.as_query_engine()
 
-response = query_engine.query("Summarise this content")
-print(response)
+    response = query_engine.query("Summarise this content")
+    print(response)
+
+def __main__():
+    execute_test_query()
