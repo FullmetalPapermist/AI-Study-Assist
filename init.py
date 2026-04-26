@@ -4,12 +4,14 @@ from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.core.node_parser import SimpleNodeParser
 from llama_index.core.response_synthesizers import ResponseMode
 
-
-
 def init_query_engine():
     parser = SimpleNodeParser.from_defaults(chunk_size=512)
 
-    llm = Ollama(model="mistral")
+    llm = Ollama(
+        model="mistral",
+        stream=True,
+        keep_alive=3000
+        )
     embed_model = HuggingFaceEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
     Settings.llm = llm
     Settings.embed_model = embed_model
