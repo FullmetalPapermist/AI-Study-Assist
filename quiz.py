@@ -7,7 +7,7 @@ def generate_context(topic, query_engine):
 
 def generate_question(topic, context, query_engine):
     prompt = f"""
-    Generate ONE short-answer question based ONLY on the topic and context max 30 words.
+    Generate ONE essay question based ONLY on the topic and context max 30 words.
 
     Topic: {topic}
 
@@ -60,10 +60,10 @@ def next_question(previous_result, topic, context, query_engine):
     Focus on this weakness (max 10 words):
     {weakness}
 
-    Return ONLY valid JSON inside a code block like this:
+Return ONLY valid JSON inside a code block like this:
 
-    ```json
-    {{ "question": "...", "answer": "..." }}
+```json
+{{ "question": "...", "answer": "..." }}
     """
 
     return parse_response(query_engine.query(prompt))
